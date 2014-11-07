@@ -1,0 +1,23 @@
+Options -Indexes
+IndexIgnore */*
+Options FollowSymlinks
+
+<IfModule mod_rewrite.c> 
+  RewriteEngine on
+
+	RewriteRule ^admin(/.+)? backend/web/$1 [L,PT]
+
+  RewriteCond %{REQUEST_URI} !^admin
+  RewriteRule ^(.*)$ frontend/web/$1 [L]
+
+
+</IfModule>
+
+# Deny accessing below extensions
+<Files ~ "(.json|.lock|.git)">
+Order allow,deny
+Deny from all
+</Files>
+
+# Deny accessing dot files
+RewriteRule (^\.|/\.) - [F]
